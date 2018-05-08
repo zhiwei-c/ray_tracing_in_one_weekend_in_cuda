@@ -9,10 +9,13 @@ NVCC_DBG       = -g -G
 NVCCFLAGS      = $(NVCC_DBG) -m64
 GENCODE_FLAGS  = -gencode arch=compute_60,code=sm_60
 
+SRCS = main.cu
+INCS = vec3.h
+
 cudart: cudart.o
 	$(NVCC) $(NVCCFLAGS) $(GENCODE_FLAGS) -o cudart cudart.o
 
-cudart.o: main.cu
+cudart.o: $(SRCS) $(INCS)
 	$(NVCC) $(NVCCFLAGS) $(GENCODE_FLAGS) -o cudart.o -c main.cu
 
 out.ppm: cudart
