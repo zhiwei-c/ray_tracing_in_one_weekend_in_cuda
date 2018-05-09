@@ -5,10 +5,11 @@
 #include "camera.h"
 #include "material.h"
 
+#define MAXFLOAT FLT_MAX
 
 vec3 color(const ray& r, hitable *world, int depth) {
     hit_record rec;
-    if (world->hit(r, 0.001, MAXFLOAT, rec)) { 
+    if (world->hit(r, 0.001, MAXFLOAT, rec)) {
         ray scattered;
         vec3 attenuation;
         if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
@@ -34,8 +35,8 @@ hitable *random_scene() {
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
             float choose_mat = drand48();
-            vec3 center(a+0.9*drand48(),0.2,b+0.9*drand48()); 
-            if ((center-vec3(4,0.2,0)).length() > 0.9) { 
+            vec3 center(a+0.9*drand48(),0.2,b+0.9*drand48());
+            if ((center-vec3(4,0.2,0)).length() > 0.9) {
                 if (choose_mat < 0.8) {  // diffuse
                     list[i++] = new sphere(center, 0.2, new lambertian(vec3(drand48()*drand48(), drand48()*drand48(), drand48()*drand48())));
                 }
@@ -91,13 +92,10 @@ int main() {
             }
             col /= float(ns);
             col = vec3( sqrt(col[0]), sqrt(col[1]), sqrt(col[2]) );
-            int ir = int(255.99*col[0]); 
-            int ig = int(255.99*col[1]); 
-            int ib = int(255.99*col[2]); 
+            int ir = int(255.99*col[0]);
+            int ig = int(255.99*col[1]);
+            int ib = int(255.99*col[2]);
             std::cout << ir << " " << ig << " " << ib << "\n";
         }
     }
 }
-
-
-
