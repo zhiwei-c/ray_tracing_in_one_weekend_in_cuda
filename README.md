@@ -39,4 +39,6 @@ We only need to add a `__device__` to the hit_sphere() call and use profile_metr
 Chapter 5
 ---------
 
+Here we have to create our world of spheres on the device and get familiar with how we do memory management for CUDA C++ classes.  Note the cudaMalloc of `d_list` and `d_world` and the `create_world` kernel.
+
 Again, attend to `__device__` and floating-point constants in hitable.h, hitable_list.h and sphere.h.
