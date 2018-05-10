@@ -1,11 +1,6 @@
 Ray Tracing in One Weekend in CUDA
 ==================================
 
-***WORK IN PROGRESS***
-
-***Not Done Yet***
-
-
 This is yet another _Ray Tracing in One Weekend_ clone, but this time using CUDA instead of C++.  CUDA can be used to speed up the code.  For example, on my machine, the C++ code renders the test image in 90 seconds.  The CUDA accelerated code renders the image in about 7 seconds.
 
 By Roger Allen
