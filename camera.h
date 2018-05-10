@@ -5,7 +5,8 @@
 
 class camera {
     public:
-        camera(vec3 lookfrom, vec3 lookat, vec3 vup, float vfov, float aspect) { // vfov is top to bottom in degrees
+        __device__ camera(vec3 lookfrom, vec3 lookat, vec3 vup, float vfov, float aspect) {
+            // vfov is top to bottom in degrees
             vec3 u, v, w;
             float theta = vfov*M_PI/180;
             float half_height = tan(theta/2);
@@ -18,7 +19,7 @@ class camera {
             horizontal = 2*half_width*u;
             vertical = 2*half_height*v;
         }
-        ray get_ray(float u, float v) { return ray(origin, lower_left_corner + u*horizontal + v*vertical - origin); }
+        __device__ ray get_ray(float u, float v) { return ray(origin, lower_left_corner + u*horizontal + v*vertical - origin); }
 
         vec3 origin;
         vec3 lower_left_corner;
