@@ -59,7 +59,7 @@ __global__ void free_world(hitable **d_list, hitable **d_world) {
 
 int main() {
     int nx = 1200;
-    int ny = 800;
+    int ny = 600;
     int tx = 8;
     int ty = 8;
 
