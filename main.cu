@@ -47,7 +47,7 @@ __global__ void render(vec3 *fb, int max_x, int max_y,
 
 int main() {
     int nx = 1200;
-    int ny = 800;
+    int ny = 600;
     int tx = 8;
     int ty = 8;
 
