@@ -53,8 +53,9 @@ __global__ void create_world(hitable **d_list, hitable **d_world) {
 }
 
 __global__ void free_world(hitable **d_list, hitable **d_world) {
+    delete *(d_list);
+    delete *(d_list+1);
     delete *d_world;
-    delete *d_list;
 }
 
 int main() {
@@ -110,7 +111,12 @@ int main() {
     }
 
     // clean up
-    free_world<<<1,1>>>(d_list,d_world);
     checkCudaErrors(cudaDeviceSynchronize());
+    free_world<<<1,1>>>(d_list,d_world);
+    checkCudaErrors(cudaFree(d_list));
+    checkCudaErrors(cudaFree(d_world));
     checkCudaErrors(cudaFree(fb));
+
+    // useful for cuda-memcheck --leak-check full
+    cudaDeviceReset();
 }
