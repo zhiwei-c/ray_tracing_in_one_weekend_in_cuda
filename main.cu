@@ -68,8 +68,9 @@ __global__ void create_world(hitable **d_list, hitable **d_world, camera **d_cam
 }
 
 __global__ void free_world(hitable **d_list, hitable **d_world, camera **d_camera) {
+    delete *(d_list);
+    delete *(d_list+1);
     delete *d_world;
-    delete *d_list;
     delete *d_camera;
 }
 
@@ -130,7 +131,14 @@ int main() {
     }
 
     // clean up
-    free_world<<<1,1>>>(d_list,d_world,d_camera);
     checkCudaErrors(cudaDeviceSynchronize());
+    free_world<<<1,1>>>(d_list,d_world,d_camera);
+    checkCudaErrors(cudaFree(d_camera));
+    checkCudaErrors(cudaFree(d_world));
+    checkCudaErrors(cudaFree(d_list));
+    checkCudaErrors(cudaFree(d_rand_state));
     checkCudaErrors(cudaFree(fb));
+
+    // useful for cuda-memcheck --leak-check full
+    cudaDeviceReset();
 }
