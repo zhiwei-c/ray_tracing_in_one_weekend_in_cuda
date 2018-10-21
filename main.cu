@@ -91,15 +91,18 @@ __global__ void create_world(hitable **d_list, hitable **d_world, camera **d_cam
         d_list[2] = new sphere(vec3(1,0,-1), 0.5,
                                new metal(vec3(0.8, 0.6, 0.2), 1.0));
         d_list[3] = new sphere(vec3(-1,0,-1), 0.5,
-                                 new metal(vec3(0.8, 0.8, 0.8), 0.3));
+                               new metal(vec3(0.8, 0.8, 0.8), 0.3));
         *d_world  = new hitable_list(d_list,4);
         *d_camera = new camera();
     }
 }
 
 __global__ void free_world(hitable **d_list, hitable **d_world, camera **d_camera) {
+    for(int i=0; i < 4; i++) {
+        delete ((sphere *)d_list[i])->mat_ptr;
+        delete d_list[i];
+    }
     delete *d_world;
-    delete *d_list;
     delete *d_camera;
 }
 
@@ -160,7 +163,13 @@ int main() {
     }
 
     // clean up
-    free_world<<<1,1>>>(d_list,d_world,d_camera);
     checkCudaErrors(cudaDeviceSynchronize());
+    free_world<<<1,1>>>(d_list,d_world,d_camera);
+    checkCudaErrors(cudaFree(d_camera));
+    checkCudaErrors(cudaFree(d_world));
+    checkCudaErrors(cudaFree(d_list));
+    checkCudaErrors(cudaFree(d_rand_state));
     checkCudaErrors(cudaFree(fb));
+
+    cudaDeviceReset();
 }
