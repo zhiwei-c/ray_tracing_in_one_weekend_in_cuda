@@ -80,6 +80,7 @@ int main() {
     hitable **d_world;
     checkCudaErrors(cudaMalloc((void **)&d_world, sizeof(hitable *)));
     create_world<<<1,1>>>(d_list,d_world);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
 
     clock_t start, stop;
@@ -93,6 +94,7 @@ int main() {
                                 vec3(0.0, 2.0, 0.0),
                                 vec3(0.0, 0.0, 0.0),
                                 d_world);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
     stop = clock();
     double timer_seconds = ((double)(stop - start)) / CLOCKS_PER_SEC;
@@ -113,6 +115,7 @@ int main() {
     // clean up
     checkCudaErrors(cudaDeviceSynchronize());
     free_world<<<1,1>>>(d_list,d_world);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaFree(d_list));
     checkCudaErrors(cudaFree(d_world));
     checkCudaErrors(cudaFree(fb));
