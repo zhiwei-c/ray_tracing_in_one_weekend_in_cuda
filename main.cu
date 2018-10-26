@@ -60,6 +60,7 @@ int main() {
                                 vec3(4.0, 0.0, 0.0),
                                 vec3(0.0, 2.0, 0.0),
                                 vec3(0.0, 0.0, 0.0));
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
     stop = clock();
     double timer_seconds = ((double)(stop - start)) / CLOCKS_PER_SEC;
