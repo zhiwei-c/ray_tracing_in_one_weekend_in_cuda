@@ -167,6 +167,7 @@ int main() {
 
     // we need that 2nd random state to be initialized for the world creation
     rand_init<<<1,1>>>(d_rand_state2);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
 
     // make our world of hitables & the camera
@@ -178,6 +179,7 @@ int main() {
     camera **d_camera;
     checkCudaErrors(cudaMalloc((void **)&d_camera, sizeof(camera *)));
     create_world<<<1,1>>>(d_list, d_world, d_camera, nx, ny, d_rand_state2);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
 
     clock_t start, stop;
@@ -186,8 +188,10 @@ int main() {
     dim3 blocks(nx/tx+1,ny/ty+1);
     dim3 threads(tx,ty);
     render_init<<<blocks, threads>>>(nx, ny, d_rand_state);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
     render<<<blocks, threads>>>(fb, nx, ny,  ns, d_camera, d_world, d_rand_state);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaDeviceSynchronize());
     stop = clock();
     double timer_seconds = ((double)(stop - start)) / CLOCKS_PER_SEC;
@@ -208,6 +212,7 @@ int main() {
     // clean up
     checkCudaErrors(cudaDeviceSynchronize());
     free_world<<<1,1>>>(d_list,d_world,d_camera);
+    checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaFree(d_camera));
     checkCudaErrors(cudaFree(d_world));
     checkCudaErrors(cudaFree(d_list));
