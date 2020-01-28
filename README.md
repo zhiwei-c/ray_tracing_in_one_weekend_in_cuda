@@ -10,11 +10,11 @@ Background
 
 Peter Shirley has written a few ebooks about Ray Tracing.  You can find out more at http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html  Note that as of April, 2018 the books are *pay what you wish* and 50% of the proceeds go towards not-for-profit programming education organizations.  They are also available for $3 each on Amazon as a Kindle download.
 
-This repository contains code for converting the first ray tracer ebook "Ray Tracing in one Weekend" from C++ to CUDA.  By changing to CUDA, depending on your CPU and GPU you can see speedups of 10x or more!
+This repository contains code for converting the first ray tracer ebook "Ray Tracing in one Weekend" from C++ to CUDA.  By changing to CUDA, depending on your CPU and GPU you can see speedups of 10x or more!  _UPDATE: see [Issue #2](https://github.com/rogerallen/raytracinginoneweekendincuda/issues/2) for a further 2x improvement!_
 
 Before coding the ray tracer in CUDA, I recommend that you code the ray tracer in C++, first.  You should understand the concepts presented in a serial language well, then translate this knowledge to CUDA.  In fact, since CUDA uses C++, much of your code can be reused.
 
-The canonical C++ code from Peter Shirley is at https://github.com/petershirley/raytracinginoneweekend.  I am basing this on https://github.com/pfranz/raytracinginoneweekend which has each chapter as a separate git branch.  This is very handy for checking out the code at each chapter.
+The C++ code that this repository is based on is at https://github.com/petershirley/raytracinginoneweekend.  As of January, 2020, the book and code are being updated and improved at https://github.com/RayTracing/raytracing.github.io/.  This repository has not been changed to match these changes.  The code matches the original book from 2016 which you can still download from http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html.  Further, I am basing this on the repo at https://github.com/pfranz/raytracinginoneweekend which has each chapter as a separate git branch.  This is very handy for checking out the code at each chapter.
 
 Chapter List
 ------------
