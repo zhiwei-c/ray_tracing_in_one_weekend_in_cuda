@@ -63,8 +63,11 @@ __global__ void render_init(int max_x, int max_y, curandState *rand_state) {
     int j = threadIdx.y + blockIdx.y * blockDim.y;
     if((i >= max_x) || (j >= max_y)) return;
     int pixel_index = j*max_x + i;
-    //Each thread gets same seed, a different sequence number, no offset
-    curand_init(1984, pixel_index, 0, &rand_state[pixel_index]);
+    // Original: Each thread gets same seed, a different sequence number, no offset
+    // curand_init(1984, pixel_index, 0, &rand_state[pixel_index]);
+    // BUGFIX, see Issue#2: Each thread gets different seed, same sequence for
+    // performance improvement of about 2x!
+    curand_init(1984+pixel_index, 0, 0, &rand_state[pixel_index]);
 }
 
 __global__ void render(vec3 *fb, int max_x, int max_y, int ns, camera **cam, hitable **world, curandState *rand_state) {
@@ -217,6 +220,7 @@ int main() {
     checkCudaErrors(cudaFree(d_world));
     checkCudaErrors(cudaFree(d_list));
     checkCudaErrors(cudaFree(d_rand_state));
+    checkCudaErrors(cudaFree(d_rand_state2));
     checkCudaErrors(cudaFree(fb));
 
     cudaDeviceReset();
